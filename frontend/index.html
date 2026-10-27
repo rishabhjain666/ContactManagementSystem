@@ -1,0 +1,227 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ContactHub | Contact Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="shell">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-icon">C</span>
+        <div>
+          <b>ContactHub</b>
+          <small>CONTACT MANAGER</small>
+        </div>
+      </div>
+
+      <div class="nav-label">WORKSPACE</div>
+      <button class="nav active" data-view="all">
+        ▦ <span>All contacts</span>
+      </button>
+      <button class="nav" data-view="sort">
+        ↕ <span>Alphabetical order</span>
+      </button>
+
+      <div class="nav-label">CATEGORIES</div>
+      <button class="nav category" data-category="Family">
+        ♡ <span>Family</span>
+      </button>
+      <button class="nav category" data-category="Friend">
+        ♧ <span>Friends</span>
+      </button>
+      <button class="nav category" data-category="Work">
+        ▣ <span>Work</span>
+      </button>
+      <button class="nav category" data-category="Other">
+        ◇ <span>Other</span>
+      </button>
+
+      <div class="sidebar-bottom">
+        <div class="avatar">CH</div>
+        <div>
+          <b>My workspace</b>
+          <small>Local application</small>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">YOUR PEOPLE, ORGANIZED</div>
+          <h1>Contacts</h1>
+        </div>
+        <button id="addBtn" class="primary">＋ Add contact</button>
+      </header>
+
+      <section class="stats">
+        <article class="stat">
+          <span class="stat-icon purple">♙</span>
+          <div>
+            <small>Total contacts</small>
+            <strong id="totalCount">0</strong>
+          </div>
+        </article>
+
+        <article class="stat">
+          <span class="stat-icon blue">⌕</span>
+          <div>
+            <small>Categories</small>
+            <strong id="categoryCount">0</strong>
+          </div>
+        </article>
+
+        <article class="stat">
+          <span class="stat-icon green">✓</span>
+          <div>
+            <small>System status</small>
+            <strong class="status">Online</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="toolbar">
+        <div>
+          <h2 id="listTitle">All contacts</h2>
+          <p id="listSubtitle">
+            Manage your personal and professional connections.
+          </p>
+        </div>
+
+        <div class="search">
+          <span>⌕</span>
+          <input id="searchInput"
+                 placeholder="Search name or phone..."
+                 autocomplete="off">
+          <button id="clearSearch" title="Clear search">×</button>
+        </div>
+      </section>
+
+      <div id="notice" class="notice" role="status"></div>
+
+      <section class="table-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>CONTACT</th>
+                <th>PHONE NUMBER</th>
+                <th>CATEGORY</th>
+                <th>EMAIL</th>
+                <th class="right">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="contactRows"></tbody>
+          </table>
+        </div>
+
+        <div id="emptyState" class="empty">
+          <div class="empty-icon">♧</div>
+          <h3>No contacts found</h3>
+          <p>Add a contact or change your search.</p>
+          <button class="primary" id="emptyAddBtn">
+            ＋ Add contact
+          </button>
+        </div>
+
+        <footer class="table-footer">
+          <span id="resultCount">0 contacts</span>
+          <span>Powered by C data structures</span>
+        </footer>
+      </section>
+
+      <div class="footnote">
+        ContactHub <span>•</span>
+        C backend · Linked list · Hash table · Binary search tree
+      </div>
+    </main>
+  </div>
+
+  <!-- Add/edit contact dialog -->
+  <div id="modal" class="modal hidden"
+       role="dialog" aria-modal="true"
+       aria-labelledby="modalTitle">
+
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">CONTACT DETAILS</div>
+          <h2 id="modalTitle">Add contact</h2>
+        </div>
+        <button class="icon-btn" id="closeModal"
+                aria-label="Close">×</button>
+      </div>
+
+      <form id="contactForm">
+
+        <p class="person-id" style="margin-bottom:16px">
+          Contact ID is generated automatically when you save.
+        </p>
+
+        <label>
+          Full name
+          <span style="color:#d64560">*</span>
+          <input name="name"
+                 placeholder="e.g. Rahul Patel"
+                 required maxlength="49"
+                 autocomplete="name">
+        </label>
+
+        <div class="two-col">
+          <label>
+            Phone number
+            <span style="color:#d64560">*</span>
+            <input name="phone"
+                   type="tel"
+                   placeholder="e.g. 9876543210"
+                   required maxlength="19"
+                   autocomplete="tel">
+          </label>
+
+          <label>
+            Category
+            <select name="category">
+              <option>Friend</option>
+              <option>Family</option>
+              <option>Work</option>
+              <option>Other</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          Email address
+          <input name="email"
+                 type="email"
+                 placeholder="rahul@example.com"
+                 maxlength="59"
+                 autocomplete="email">
+        </label>
+
+        <label>
+          Address
+          <textarea name="address"
+                    rows="2"
+                    placeholder="Street, city"
+                    maxlength="99"
+                    autocomplete="street-address"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button type="button" class="secondary"
+                  id="cancelModal">Cancel</button>
+          <button type="submit" class="primary"
+                  id="saveBtn">Save contact</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
