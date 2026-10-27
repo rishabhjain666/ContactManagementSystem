@@ -807,7 +807,7 @@ static void handle_client(socket_t client) {
     char method[10] = {0};
     char url[512] = {0};
 
-    sscanf(request, "%9s %511s", method, url);
+   fprintf(stderr, "DEBUG request: method='%s', url='%s'\n", method, url);
 
     char *query = strchr(url, '?');
 
