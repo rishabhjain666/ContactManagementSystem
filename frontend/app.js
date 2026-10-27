@@ -1,5 +1,5 @@
 
-const API = '';
+const API = 'https://contact-management-system-7zfn.onrender.com';
 
 const rows = document.getElementById('contactRows');
 const modal = document.getElementById('modal');
