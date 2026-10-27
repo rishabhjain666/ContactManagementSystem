@@ -804,10 +804,28 @@ static void handle_client(socket_t client) {
         }
     }
 
-    char method[10] = {0};
-    char url[512] = {0};
+    
+char method[10] = {0};
+char url[512] = {0};
 
-   fprintf(stderr, "DEBUG request: method='%s', url='%s'\n", method, url);
+/* Parse the HTTP request line */
+if (total == 0) {
+    free(request);
+    CLOSESOCKET(client);
+    return;
+}
+
+int parsed = sscanf(request, "%9s %511s", method, url);
+
+if (parsed != 2) {
+    fprintf(stderr, "Invalid HTTP request received.\n");
+    free(request);
+    CLOSESOCKET(client);
+    return;
+}
+
+fprintf(stderr, "DEBUG request: method='%s', url='%s'\n",
+        method, url);
 
     char *query = strchr(url, '?');
 
