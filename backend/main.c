@@ -818,20 +818,17 @@ if (total == 0) {
 int parsed = sscanf(request, "%9s %511s", method, url);
 
 if (parsed != 2) {
-    fprintf(stderr, "Invalid HTTP request received.\n");
     free(request);
     CLOSESOCKET(client);
     return;
 }
 
-fprintf(stderr, "DEBUG request: method='%s', url='%s'\n",
-        method, url);
+char *query = strchr(url, '?');
 
-    char *query = strchr(url, '?');
+if (query)
+    *query = '\0';
 
-    if (query)
-        *query = '\0';
-
+fprintf(stderr, "DEBUG path after query removal: '%s'\n", url);
     char *separator = strstr(request, "\r\n\r\n");
     char *body = separator ? separator + 4 : "";
 
